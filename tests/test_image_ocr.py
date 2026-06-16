@@ -4,6 +4,12 @@ import urllib.error
 import json
 import os
 
+# 后端地址：可通过 BACKEND_HOST / BACKEND_PORT 环境变量覆盖
+BACKEND_HOST = os.environ.get("BACKEND_HOST", "127.0.0.1")
+BACKEND_PORT = os.environ.get("BACKEND_PORT", "8000")
+BACKEND_BASE = f"http://{BACKEND_HOST}:{BACKEND_PORT}"
+
+
 def ocr_only_test(image_path: str):
     print("=" * 60)
     print(f"OCR 测试: {image_path}")
@@ -20,7 +26,7 @@ def ocr_only_test(image_path: str):
     ).encode() + img_bytes + f"\r\n--{boundary}--\r\n".encode()
 
     req = urllib.request.Request(
-        "http://localhost:8000/api/analyze/image/ocr-only",
+        f"{BACKEND_BASE}/api/analyze/image/ocr-only",
         data=body,
         headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
     )
@@ -55,7 +61,7 @@ def analyze_image_test(image_path: str):
     ).encode() + img_bytes + f"\r\n--{boundary}--\r\n".encode()
 
     req = urllib.request.Request(
-        "http://localhost:8000/api/analyze/image",
+        f"{BACKEND_BASE}/api/analyze/image",
         data=body,
         headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
     )

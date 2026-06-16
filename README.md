@@ -131,7 +131,7 @@ git clone https://github.com/baishi12121/AI-.git
 cd AI-
 ```
 
-### 2. 启动后端（端口 8000）
+### 2. 启动后端（默认端口 8000，可通过环境变量 `PORT` 覆盖）
 
 ```bash
 cd backend
@@ -149,13 +149,17 @@ pip install -r requirements.txt
 # 复制配置（可选 — 留空则使用 Mock LLM）
 copy .env.example .env       # Windows
 # cp .env.example .env       # macOS / Linux
-# 编辑 .env，设置 QWEN_API_KEY=sk-xxxxx
+# 编辑 .env，设置 QWEN_API_KEY=sk-xxxxx（也支持设置 PORT=xxxx 改端口）
 
-# 启动服务
+# 启动服务（端口可在执行前 set PORT=xxxx 覆盖）
 uvicorn app.main:app --reload --port 8000
+# 或： PORT=9000 uvicorn app.main:app --reload
 ```
 
 API 文档（Swagger UI）：**http://127.0.0.1:8000/docs**
+
+> 配套启动脚本会读取 `backend/.env` 中的 `PORT`/`HOST`：Windows 下 `run.bat`、跨平台下 `python start_backend.py`。
+> 前端开发时，Vite 代理目标读取 `frontend/.env` 中的 `VITE_API_TARGET`（默认 `http://localhost:8000`），与后端 `PORT` 保持一致即可。
 
 或者使用一键启动脚本：
 

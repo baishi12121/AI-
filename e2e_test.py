@@ -1,14 +1,23 @@
 """端到端测试脚本"""
+import os
 import urllib.request
 import json
 import sys
+
+# 后端地址：可通过 BACKEND_HOST / BACKEND_PORT 环境变量覆盖（默认 127.0.0.1:8000）
+BACKEND_HOST = os.environ.get("BACKEND_HOST", "127.0.0.1")
+BACKEND_PORT = os.environ.get("BACKEND_PORT", "8000")
+# 前端代理地址（用于走 vite 代理的接口），可通过 FRONTEND_PORT 覆盖（默认 5173）
+FRONTEND_PORT = os.environ.get("FRONTEND_PORT", "5173")
+FRONTEND_BASE = f"http://localhost:{FRONTEND_PORT}"
+BACKEND_BASE = f"http://{BACKEND_HOST}:{BACKEND_PORT}"
 
 def test_text_analyze():
     print("=" * 50)
     print("TEST 1: 文本分析（通过前端代理）")
     print("=" * 50)
     req = urllib.request.Request(
-        'http://localhost:5173/api/analyze/text',
+        f'{FRONTEND_BASE}/api/analyze/text',
         data=json.dumps({
             'raw_text': '[10:00] 我: 在吗？\n[10:01] 她: 嗯嗯 怎么了\n[10:02] 我: 想约你看个电影\n[10:05] 她: 嗯…最近有点忙\n[10:06] 我: 好吧 那下次吧\n[10:10] 她: 嗯嗯',
             'user_role': '我',
@@ -40,7 +49,7 @@ def test_health():
     print("\n" + "=" * 50)
     print("TEST 2: 健康检查")
     print("=" * 50)
-    with urllib.request.urlopen('http://localhost:8000/api/healthz') as r:
+    with urllib.request.urlopen(f'{BACKEND_BASE}/api/healthz') as r:
         body = json.loads(r.read().decode('utf-8'))
     assert body['code'] == 0
     print(f"  status = {body['data']['status']}, model = {body['data']['model']}")
@@ -72,7 +81,7 @@ def test_image_analyze():
     ).encode() + buf.read() + f'\r\n--{boundary}--\r\n'.encode()
 
     req = urllib.request.Request(
-        'http://localhost:5173/api/analyze/image',
+        f'{FRONTEND_BASE}/api/analyze/image',
         data=body,
         headers={'Content-Type': f'multipart/form-data; boundary={boundary}'}
     )
@@ -110,7 +119,7 @@ def test_real_ocr():
     ).encode() + img_bytes + f'\r\n--{boundary}--\r\n'.encode()
 
     req = urllib.request.Request(
-        'http://localhost:5173/api/analyze/image/ocr-only',
+        f'{FRONTEND_BASE}/api/analyze/image/ocr-only',
         data=body,
         headers={'Content-Type': f'multipart/form-data; boundary={boundary}'}
     )

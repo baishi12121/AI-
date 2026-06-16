@@ -22,9 +22,10 @@ copy .env.example .env
 
 # 4. 启动
 uvicorn app.main:app --reload --port 8000
+# 或通过环境变量切换端口：PORT=9000 uvicorn app.main:app --reload
 ```
 
-或直接运行 `run.bat`。
+或直接运行 `run.bat`（同样会读取 `PORT`/`HOST` 环境变量，默认 `0.0.0.0:8000`）。
 
 ## 端到端测试
 
