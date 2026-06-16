@@ -34,8 +34,8 @@ watch(
     })
     // 为每个有效 File 生成新 URL
     const urls: string[] = []
-    for (const f of newFiles || []) {
-      if (f instanceof File || f instanceof Blob) {
+    for (const f of (newFiles || []) as File[]) {
+      if (f && typeof f === 'object' && 'type' in f) {
         try {
           urls.push(URL.createObjectURL(f))
         } catch {

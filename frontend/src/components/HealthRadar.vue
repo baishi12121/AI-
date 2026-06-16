@@ -9,12 +9,17 @@ defineProps<{
   advice: string[]
 }>()
 
-const items = [
+const items: Array<{
+  key: 'naturalness' | 'engagement' | 'silence_risk' | 'reply_quality'
+  label: string
+  icon: string
+  inverse?: true
+}> = [
   { key: 'naturalness', label: '自然度', icon: '✨' },
   { key: 'engagement', label: '互动度', icon: '🔥' },
   { key: 'silence_risk', label: '冷场风险', icon: '🥶', inverse: true },
   { key: 'reply_quality', label: '回复质量', icon: '🎯' },
-] as const
+]
 
 function color(v: number) {
   if (v >= 80) return 'from-emerald-500 to-emerald-400'
