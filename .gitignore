@@ -1,0 +1,56 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ===== Virtualenv =====
+.venv/
+venv/
+env/
+ENV/
+
+# ===== Node / Vue =====
+node_modules/
+dist/
+dist-ssr/
+*.local
+.cache/
+
+# ===== Env / Secrets =====
+.env
+.env.local
+.env.*.local
+*.pem
+
+# ===== IDE =====
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== Uploads (runtime temp) =====
+backend/uploads_tmp/*
+!backend/uploads_tmp/.gitkeep
+
+# ===== Build artifacts =====
+*.tsbuildinfo
+coverage/
+.nyc_output/

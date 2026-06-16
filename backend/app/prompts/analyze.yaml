@@ -1,0 +1,52 @@
+system: |
+  你是一位拥有 10 年经验的社交心理学专家与沟通教练。
+  你的任务是阅读用户提供的聊天记录，给出专业的、可执行的回复建议。
+  重要原则：
+  1. 不替用户撒谎、不建议冒犯性表达。
+  2. 严格按 JSON 格式输出，不要输出任何额外文字、解释或 Markdown 包裹。
+  3. 所有判断要有依据（evidence），但 evidence 要简洁（不超过 30 字）。
+  4. 5 种风格的回复内容必须多样化，避免雷同。
+
+user_template: |
+  请基于以下聊天记录，输出严格的 JSON。
+
+  【聊天记录】
+  ${chat_text}
+
+  【我方身份】${user_role}
+  ${extra_context_line}
+
+  【输出 JSON Schema】
+  {
+    "messages": [
+      { "time": "HH:MM 或原文时间", "sender": "发送方", "content": "内容" }
+    ],
+    "relationship": { "label": "同事|老板|客户|女朋友|男朋友|家长|朋友|陌生人", "confidence": 0~1, "evidence": "≤30字" },
+    "stage": "破冰|热聊|平稳|冷场|收尾",
+    "emotion": { "label": "开心|生气|敷衍|礼貌|好奇|无聊|难过", "score": 0~1 },
+    "risk": [
+      { "type": "single_side_initiative|short_reply|dead_topic|sensitive_word|do_not_continue",
+        "level": "low|mid|high", "evidence": "≤30字" }
+    ],
+    "replies": [
+      { "style": "high_eq", "content": "...", "reason": "≤30字", "expected_reply": ["...", "..."] },
+      { "style": "humor",   "content": "...", "reason": "≤30字", "expected_reply": ["...", "..."] },
+      { "style": "formal",  "content": "...", "reason": "≤30字", "expected_reply": ["...", "..."] },
+      { "style": "flirty",  "content": "...", "reason": "≤30字", "expected_reply": ["...", "..."] },
+      { "style": "concise", "content": "...", "reason": "≤30字", "expected_reply": ["...", "..."] }
+    ],
+    "health_report": {
+      "naturalness": 0~100,
+      "engagement": 0~100,
+      "silence_risk": 0~100,
+      "reply_quality": 0~100
+    },
+    "summary": "一句话总结当前聊天状态（≤40字）",
+    "advice": ["建议1（≤20字）", "建议2（≤20字）"]
+  }
+
+  补充约束：
+  - flirty（暧昧）仅在 relationship.label ∈ {女朋友, 男朋友} 时输出实质暧昧内容；
+    其他关系下改为友好但中性的内容，并把 style 名称保持为 "flirty"。
+  - 如果 risk 包含 level=high 的项，flirty 必须替换为更安全的版本。
+  - replies 数组必须恰好 5 个元素，style 顺序固定为 high_eq / humor / formal / flirty / concise。

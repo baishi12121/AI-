@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #fafafa;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --fg-primary: #18181b;
+  --fg-secondary: #52525b;
+  --fg-muted: #a1a1aa;
+  --border: #e4e4e7;
+  --brand: #0ea5e9;
+  --accent: #a78bfa;
+  --danger: #f43f5e;
+}
+
+.dark {
+  --bg-base: #09090b;
+  --bg-card: #18181b;
+  --bg-elevated: #27272a;
+  --fg-primary: #fafafa;
+  --fg-secondary: #a1a1aa;
+  --fg-muted: #71717a;
+  --border: #27272a;
+  --brand: #38bdf8;
+  --accent: #c4b5fd;
+  --danger: #fb7185;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-base);
+  color: var(--fg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.font-display {
+  font-family: 'Sora', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* 渐变背景 */
+.bg-aurora {
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 0%, rgba(14, 165, 233, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 10%, rgba(167, 139, 250, 0.12), transparent 60%),
+    var(--bg-base);
+}
+
+.dark .bg-aurora {
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 0%, rgba(14, 165, 233, 0.18), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 10%, rgba(167, 139, 250, 0.18), transparent 60%),
+    var(--bg-base);
+}
+
+/* 网格背景 */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 80%);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-muted);
+}
+
+/* 加载光晕 */
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-elevated) 50%, var(--bg-card) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
